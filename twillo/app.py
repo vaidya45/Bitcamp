@@ -1,31 +1,18 @@
-from twilio.rest import Client
-import os
-from dotenv import load_dotenv
+from twilio.twiml.voice_response import VoiceResponse, Say
 
-# Set up Twilio client with your account SID and auth token
+response = VoiceResponse()
+say = Say('Hi', voice='Polly.Joanna')
+say.break_(strength='x-weak', time='100ms')
+say.emphasis('Words to emphasize', level='moderate')
+say.p('Words to speak')
+say.append('aaaaaa')
+say.phoneme('Words to speak', alphabet='x-sampa', ph='pi')
+say.append('bbbbbbb')
+say.prosody('Words to speak', pitch='-10%', rate='85%', volume='-6dB')
+say.s('Words to speak')
+say.say_as('Words to speak', interpret_as='spell-out', role='yyyymmdd')
+say.sub('Words to be substituted', alias='alias')
+say.w('Words to speak')
+response.append(say)
 
-# Load environment variables from .env file
-load_dotenv()
-
-# Access environment variables
-account_sid = os.getenv("TWILIO_ACCOUNT_SID")
-auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-
-client = Client(account_sid, auth_token)
-
-# Define the text you want to convert to speech
-text = "Hello, this is a test message."
-
-# Specify the language and voice you want to use
-language = "en-US"
-voice = "alice"
-
-# Send the API request to Twilio Voice API
-response = client.calls.create(
-    twiml='<Say voice="{0}" language="{1}">{2}</Say>'.format(
-        voice, language, text),
-    to='+1234567890',
-    from_='+9876543210'
-)
-
-print(response.sid)
+print(response)
