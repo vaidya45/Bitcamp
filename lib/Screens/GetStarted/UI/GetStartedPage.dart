@@ -1,4 +1,4 @@
-import 'package:exeappgetsrt/Screens/GetStarted/Widgets/1Body.dart';
+import 'package:hackathon/Screens/GetStarted/Widgets/1Body.dart';
 import 'package:flutter/material.dart';
 
 class GetStartedPage extends StatefulWidget {

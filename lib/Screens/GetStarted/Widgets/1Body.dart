@@ -1,5 +1,5 @@
-import 'package:exeappgetsrt/Declarations/GetStartedPage.dart';
-import 'package:exeappgetsrt/GeneralWidgets/GWidgets.dart';
+import 'package:hackathon/Declarations/GetStartedPage.dart';
+import 'package:hackathon/GeneralWidgets/GWidgets.dart';
 import 'package:flutter/material.dart';
 import '5GetStartedBtn.dart';
 import '3DotIndicator.dart';

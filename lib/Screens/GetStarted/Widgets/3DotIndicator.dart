@@ -1,6 +1,6 @@
-import 'package:exeappgetsrt/Declarations/Global/GlobalDeclarations.dart';
+import 'package:hackathon/Declarations/Global/GlobalDeclarations.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:exeappgetsrt/Declarations/GetStartedPage.dart';
+import 'package:hackathon/Declarations/GetStartedPage.dart';
 import 'package:flutter/material.dart';
 
 Widget buildDotIndicator() => SmoothPageIndicator(

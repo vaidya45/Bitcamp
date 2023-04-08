@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'Screens/GetStarted/UI/GetStartedPage.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MaterialApp(title: 'hackathon', home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {

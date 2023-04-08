@@ -1,7 +1,7 @@
-import 'package:exeappgetsrt/Declarations/Global/GlobalDeclarations.dart';
-import 'package:exeappgetsrt/Declarations/Images/ImageFiles.dart';
-import 'package:exeappgetsrt/Declarations/GetStartedPage.dart';
-import 'package:exeappgetsrt/GeneralWidgets/GWidgets.dart';
+import 'package:hackathon/Declarations/Global/GlobalDeclarations.dart';
+import 'package:hackathon/Declarations/Images/ImageFiles.dart';
+import 'package:hackathon/Declarations/GetStartedPage.dart';
+import 'package:hackathon/GeneralWidgets/GWidgets.dart';
 import 'package:flutter/material.dart';
 
 Widget buildPageView(BuildContext context) => Container(
@@ -57,7 +57,7 @@ Widget buildTitle(int index) => Flexible(
         textAlign: TextAlign.center,
         style: TextStyle(
           color: primaryColor,
-          fontSize: 20.00,
+          fontSize: 24.00,
           fontWeight: FontWeight.w500,
         ),
       ),

@@ -1,5 +1,5 @@
-import 'package:exeappgetsrt/Declarations/Global/GlobalDeclarations.dart';
-import 'package:exeappgetsrt/Declarations/GetStartedPage.dart';
+import 'package:hackathon/Declarations/Global/GlobalDeclarations.dart';
+import 'package:hackathon/Declarations/GetStartedPage.dart';
 import 'package:flutter/material.dart';
 
 Widget buildNextbackBtn(double currentPage) => Container(
