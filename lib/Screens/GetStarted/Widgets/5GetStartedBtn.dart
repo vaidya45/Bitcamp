@@ -2,6 +2,7 @@ import 'package:hackathon/Declarations/Global/GlobalDeclarations.dart';
 import 'package:hackathon/Declarations/GetStartedPage.dart';
 import 'package:flutter/material.dart';
 import '4NxtBackBtn.dart';
+import 'pages/get_started.dart';
 
 Widget buildGetStartedButton(BuildContext context) => currentPage.value == 3
     ? Container(
@@ -23,7 +24,13 @@ Widget buildGetStartedButton(BuildContext context) => currentPage.value == 3
               fontWeight: FontWeight.w500,
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => GetStartedPage()),
+            );
+          },
         ),
       )
     : buildNextbackBtn(currentPage.value.toDouble());
+
