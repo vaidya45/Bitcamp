@@ -30,12 +30,12 @@ class _TodoListPageState extends State<TodoListPage> {
   File image;
 
   uploadImage() async {
-    final request = http.MultipartRequest(
-        "POST", Uri.parse("http://127.0.0.1:9000/upload"));
+    final request =
+        http.MultipartRequest("GET", Uri.parse("http://127.0.0.1:5000/upload"));
     final headers = {"Content-type": "multipart/form-data"};
 
     request.files.add(http.MultipartFile(
-        'image', image.readAsBytes().asStream(), image.lengthSync(),
+        'file', image.readAsBytes().asStream(), image.lengthSync(),
         filename: image.path.split("/").last));
 
     request.headers.addAll(headers);
