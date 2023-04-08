@@ -28,7 +28,8 @@ class _TodoListPageState extends State<TodoListPage> {
   File image;
 
   uploadImage() async {
-    final request = http.MultipartRequest("GET", Uri.parse("http://127.0.0.1:5000/upload"));
+    final request = http.MultipartRequest(
+        "GET", Uri.parse("http://10.104.40.136:9080/upload"));
     final headers = {"Content-type": "multipart/form-data"};
 
     request.files.add(http.MultipartFile(
@@ -81,70 +82,68 @@ class _TodoListPageState extends State<TodoListPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            image != null ?
-            Container(
-  decoration: BoxDecoration(
-    border: Border.all(
-      color: Colors.white,
-      width: 2.0,
-    ),
-    boxShadow: [
-      BoxShadow(
-        color: Colors.black.withOpacity(0.2),
-        spreadRadius: 2,
-        blurRadius: 2,
-        offset: Offset(0, 3),
-      ),
-    ],
-  ),
-  child: ClipRRect(
-    borderRadius: BorderRadius.circular(8.0),
-    child: Image.file(
-      image,
-      fit: BoxFit.contain,
-    ),
-  ),
-)
- :
-            Container(),
+            image != null
+                ? Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 2.0,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          spreadRadius: 2,
+                          blurRadius: 2,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8.0),
+                      child: Image.file(
+                        image,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  )
+                : Container(),
             SizedBox(height: 20),
             ElevatedButton(
-  style: ElevatedButton.styleFrom(
-    primary: Colors.blue,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20.0),
-    ),
-    elevation: 5,
-    shadowColor: Colors.grey.withOpacity(0.5),
-    padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-    textStyle: TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.bold,
-      fontSize: 18.0,
-    ),
-    // Add animation properties
-    animationDuration: Duration(milliseconds: 500),
-    splashFactory: InkRipple.splashFactory,
-    // Set splashColor in InkRipple widget
-  ),
-  // Add widget to make button more interesting
-  child: Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      // Icon(
-      //   Icons.photo_album,
-      //   color: Colors.white,
-      // ),
-      SizedBox(width: 10),
-      Text("Pick Image from Gallery"),
-    ],
-  ),
-  onPressed: () async {
-    await pickImage();
-    uploadImage();
-  },
-)
-,
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                elevation: 5,
+                shadowColor: Colors.grey.withOpacity(0.5),
+                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),
+                // Add animation properties
+                animationDuration: Duration(milliseconds: 500),
+                splashFactory: InkRipple.splashFactory,
+                // Set splashColor in InkRipple widget
+              ),
+              // Add widget to make button more interesting
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Icon(
+                  //   Icons.photo_album,
+                  //   color: Colors.white,
+                  // ),
+                  SizedBox(width: 10),
+                  Text("Pick Image from Gallery"),
+                ],
+              ),
+              onPressed: () async {
+                await pickImage();
+                uploadImage();
+              },
+            ),
 
             SizedBox(height: 10),
             ElevatedButton(
@@ -160,18 +159,18 @@ class _TodoListPageState extends State<TodoListPage> {
                 textStyle: TextStyle(
                   color: Colors.white70,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18.0,),
+                  fontSize: 18.0,
                 ),
-
-            onPressed: () async {
+              ),
+              onPressed: () async {
                 await pickImageC();
                 uploadImage();
               },
-            child: Text(
-              "Pick Image from Camera",
+              child: Text(
+                "Pick Image from Camera",
+              ),
             ),
-          ),
-          // image != null ? Image.file(image) : Text ("No Image Selected")
+            // image != null ? Image.file(image) : Text ("No Image Selected")
           ],
         ),
       ),
