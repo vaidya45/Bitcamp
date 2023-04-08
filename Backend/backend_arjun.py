@@ -14,7 +14,7 @@ def upload():
         print("\nReceived image File name : " + imagefile.filename)
         # Storing this image at this location
         # imagefile.save("./uploadedimages/" + filename)
-        
+
         return jsonify({
             "message": "Image Uploaded Successfully ",
         })

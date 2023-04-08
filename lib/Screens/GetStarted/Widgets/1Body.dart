@@ -6,6 +6,7 @@ import '3DotIndicator.dart';
 import '2PageView.dart';
 
 Widget buildBody(BuildContext context) => Container(
+  color: Colors.grey[50],
       child: SingleChildScrollView(
         child: ConstrainedBox(
           constraints:

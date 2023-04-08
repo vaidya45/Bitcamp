@@ -4,49 +4,54 @@ import 'package:hackathon/Declarations/GetStartedPage.dart';
 import 'package:hackathon/GeneralWidgets/GWidgets.dart';
 import 'package:flutter/material.dart';
 
-Widget buildPageView(BuildContext context) => Container(
-      height: MediaQuery.of(context).size.height / 1.55,
-      color: Colors.grey[50], // Use dark blue as the background color
-      child: Container(
-        child: PageView.builder(
-          controller: myPageViewController,
-          itemCount: 4,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) {
-            return buildTopViews(context, index);
-          },
-          onPageChanged: (value) {
-            try {
-              currentPage.value = value.toDouble();
-            } catch (e) {}
-          },
-        ),
-      ),
-    );
+Widget buildPageView(BuildContext context) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final screenWidth = MediaQuery.of(context).size.width;
 
-Widget buildTopViews(BuildContext context, int index) => Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50.00),
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            buildImage(index),
-            heightSpacer(25.00),
-            buildTitle(index),
-            heightSpacer(10.00),
-            buildSubTitle(context, index),
-          ],
-        ),
+  return Container(
+    height: screenHeight / 1.55,
+    color: Colors.grey[50], // Use dark blue as the background color
+    child: Container(
+      child: PageView.builder(
+        controller: myPageViewController,
+        itemCount: 4,
+        physics: BouncingScrollPhysics(),
+        itemBuilder: (context, index) {
+          return buildTopViews(context, index, screenHeight, screenWidth);
+        },
+        onPageChanged: (value) {
+          try {
+            currentPage.value = value.toDouble();
+          } catch (e) {}
+        },
       ),
-    );
+    ),
+  );
+}
 
-Widget buildImage(int index) => Center(
+Widget buildTopViews(BuildContext context, int index, double screenHeight, double screenWidth) => Padding(
+  padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05),
+  child: Container(
+    child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        buildImage(context, index, screenHeight),
+        heightSpacer(screenHeight * 0.05),
+        buildTitle(context, index),
+        heightSpacer(screenHeight * 0.02),
+        buildSubTitle(context, index),
+      ],
+    ),
+  ),
+);
+
+Widget buildImage(BuildContext context, int index, double screenHeight) => Center(
   child: Padding(
-    padding: EdgeInsets.only(top: 60.0),
+    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.1),
     child: Container(
       width: double.infinity,
-      height: 300,
+      height: MediaQuery.of(context).size.height * 0.35,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10.0),
@@ -76,15 +81,15 @@ Widget buildImage(int index) => Center(
   ),
 );
 
-Widget buildTitle(int index) => Flexible(
+Widget buildTitle(BuildContext context, int index) => Flexible(
   child: Container(
-    margin: EdgeInsets.only(top: 32.0),
+    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
     child: Text(
       heading[index],
       textAlign: TextAlign.center,
       style: TextStyle(
         color: Colors.blue[600],
-        fontSize: 28.0,
+        fontSize: 0.05 * MediaQuery.of(context).size.width,
         fontWeight: FontWeight.w800,
         fontFamily: 'Montserrat',
         shadows: [
@@ -99,18 +104,16 @@ Widget buildTitle(int index) => Flexible(
   ),
 );
 
-
 Widget buildSubTitle(BuildContext context, int index) => Flexible(
   child: Container(
-    width: (MediaQuery.of(context).size.width) - 100,
+    width: (MediaQuery.of(context).size.width) - (2 * MediaQuery.of(context).size.width * 0.1),
     child: Text(
       subHeading[index],
       textAlign: TextAlign.center,
       style: TextStyle(
         color: Colors.blueGrey.shade700,
-        fontSize: 20.0,
+        fontSize: 0.04 * MediaQuery.of(context).size.width,
         fontWeight: FontWeight.w600,
-        // fontFamily: 'Roboto',
         fontFamily: 'sanserif',
         shadows: [
           Shadow(
@@ -123,5 +126,3 @@ Widget buildSubTitle(BuildContext context, int index) => Flexible(
     ),
   ),
 );
-
-
