@@ -33,11 +33,12 @@ class ImageProcessing(Resource):
         if not self.allowed_file(image_file.filename):
             return {"message": "Invalid file type"}, 400
         image_data = image_file.read()
-        text = pytesseract.image_to_string(Image.open(io.BytesIO(image_data)))
+        text = pytesseract.image_to_string(Image.open(
+            io.BytesIO(image_data))).replace("\n", "")
         return {"message": text}
 
 
 api.add_resource(ImageProcessing, "/upload")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0",  debug=True)
