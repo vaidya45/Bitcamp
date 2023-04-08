@@ -1,9 +1,8 @@
 from flask import Flask
 from flask_restful import Api, Resource, reqparse
 import pytesseract
-import os
+import io
 import werkzeug
-from werkzeug.utils import secure_filename
 from PIL import Image
 
 
@@ -32,11 +31,8 @@ class ImageProcessing(Resource):
         image_file = args["file"]
         if not self.allowed_file(image_file.filename):
             return {"message": "Invalid file type"}, 400
-        filename = secure_filename(image_file.filename)
-        filepath = os.path.join("Backend", filename)
-        image_file.save(filepath)
-        text = pytesseract.image_to_string(Image.open(filepath, "r"))
-        os.remove(filepath)
+        image_data = image_file.read()
+        text = pytesseract.image_to_string(Image.open(io.BytesIO(image_data)))
         return {"message": text}
 
 
