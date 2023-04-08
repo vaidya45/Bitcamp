@@ -35,7 +35,14 @@ class _TodoListPageState extends State<TodoListPage> {
     await fluttertts.speak(text);
   }
 
+  stopSpeaking() async {
+    await fluttertts.stop();
+  }
+
   uploadImage() async {
+    final x = "10.104.40.136";
+    final y = "10.0.12.35";
+
     final request = http.MultipartRequest(
         "GET", Uri.parse("http://10.104.40.136:9080/upload"));
     final headers = {"Content-type": "multipart/form-data"};
@@ -151,7 +158,6 @@ class _TodoListPageState extends State<TodoListPage> {
                 uploadImage();
               },
             ),
-
             SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -177,7 +183,20 @@ class _TodoListPageState extends State<TodoListPage> {
                 "Pick Image from Camera",
               ),
             ),
-            // image != null ? Image.file(image) : Text ("No Image Selected")
+            Visibility(
+                visible: image != null,
+                child: FloatingActionButton(
+                    backgroundColor: Colors.red,
+                    child: Text(
+                      'X',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                      ),
+                    ),
+                    onPressed: () {
+                      stopSpeaking();
+                    }))
           ],
         ),
       ),
