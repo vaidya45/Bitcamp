@@ -1,8 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.exeappgetsrt">
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
    <application
         android:label="exeappgetsrt"
         android:icon="@mipmap/ic_launcher">
@@ -42,4 +39,3 @@
             android:value="2" />
     </application>
 </manifest>
-
