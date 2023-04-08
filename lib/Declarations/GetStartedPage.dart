@@ -4,15 +4,15 @@ PageController myPageViewController = new PageController(viewportFraction: 0.8);
 final ValueNotifier<double> currentPage = ValueNotifier<double>(0.0);
 
 List heading = <String>[
-  "Stay Fit & Healthy",
-  "Simple workouts",
-  "Manage Diet",
-  "Track Progress",
+  "Snap and read on the go!",
+  "Dyslexic? No problem.",
+  "Can't Read? We got you.",
+  "Struggling with Prescriptions?",
 ];
 
 List subHeading = <String>[
-  "Stay healthy by doing simple exercises you prefer.",
-  "Easily workout indoor exercises, meditations and yoga with this app.",
-  "Regulate your diet patterns and food habits with recommendation option.",
-  "Track your workout paterns and visualize you every day progress.",
+  "No More Struggling with Menus",
+  "Get the most out of your reading with powerful tools and features.",
+  "Enjoy your favorite books wherever life takes you!",
+  "Never miss a medication or dosage with text-to-speech reminders.",
 ];
