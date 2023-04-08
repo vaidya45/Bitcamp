@@ -32,6 +32,7 @@ dependencies:
   hexcolor: ^1.0.6
   camera: ^0.10.0+2
   image_picker: ^0.8.3
+  google_ml_kit: ^0.7.3
 
 dev_dependencies:
   flutter_test:
