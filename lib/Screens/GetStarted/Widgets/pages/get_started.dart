@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 // void main() => runApp(MyApp());
 
@@ -26,6 +28,23 @@ class TodoListPage extends StatefulWidget {
 
 class _TodoListPageState extends State<TodoListPage> {
   File image;
+
+  uploadImage() async {
+    final request = http.MultipartRequest(
+        "POST", Uri.parse("http://127.0.0.1:9000/upload"));
+    final headers = {"Content-type": "multipart/form-data"};
+
+    request.files.add(http.MultipartFile(
+        'image', image.readAsBytes().asStream(), image.lengthSync(),
+        filename: image.path.split("/").last));
+
+    request.headers.addAll(headers);
+    final response = await request.send();
+
+    http.Response res = await http.Response.fromStream(response);
+
+    final resJson = jsonDecode(res.body);
+  }
 
   Future pickImage() async {
     try {
@@ -59,7 +78,7 @@ class _TodoListPageState extends State<TodoListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Image Picker Example"),
+          title: const Text("Home Page"),
         ),
         body: Center(
           child: Column(
@@ -71,6 +90,7 @@ class _TodoListPageState extends State<TodoListPage> {
                           color: Colors.white70, fontWeight: FontWeight.bold)),
                   onPressed: () {
                     pickImage();
+                    uploadImage();
                   }),
               MaterialButton(
                   color: Colors.blue,
