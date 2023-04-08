@@ -1,6 +1,5 @@
 import time
 import concurrent.futures
-from tqdm import tqdm
 import pandas as pd
 import numpy as np
 import tensorflow as tf
@@ -8,7 +7,7 @@ import tensorflow_hub as hub
 import matplotlib.pyplot as plt
 import PIL
 from PIL.ImageDraw import Draw
-from PIL import Image
+from PIL import Image, ImageDraw
 import os
 
 # Image IDs and target values.
@@ -40,7 +39,7 @@ def detect_objects(path: str, model) -> dict:
     return model(image_tensor)
 
 
-def count_persons(path: str, model, threshold=0.) -> int:
+def count_persons(path: str, model, threshold=0.25) -> int:
     """Function counts the number of persons in an image
     processing "detection_classes" output of the model
     and taking into account confidence threshold.
@@ -49,22 +48,19 @@ def count_persons(path: str, model, threshold=0.) -> int:
     :param threshold: Threshold for confidence scores
     :return: Number of people for one image
     """
-    results = detect_objects(path, model)
-    # Class ID 1 = "person"
     return (results['detection_classes'].numpy()[0] == 1)[np.where(
         results['detection_scores'].numpy()[0] > threshold)].sum()
 
 
-def draw_bboxes(image_path, data: dict, threshold=0.) -> PIL.Image:
+def draw_bboxes(image_path, data: dict, threshold=0.):
     """Function displays an image with bounding boxes
     overlaid for every detected person.
     :param image_path: File path to an image
     :param data: Output of objects detection model for this image
     :param threshold: Threshold for confidence scores
-    :return: PIL.Image object
     """
-    image = PIL.Image.open(image_path)
-    draw = Draw(image)
+    image = Image.open(image_path)
+    draw = ImageDraw.Draw(image)
 
     im_width, im_height = image.size
 
@@ -80,6 +76,8 @@ def draw_bboxes(image_path, data: dict, threshold=0.) -> PIL.Image:
             draw.line([(left, top), (left, bottom), (right, bottom), (right, top), (left, top)],
                       width=4, fill='red')
 
+    output_path = os.path.join(os.getcwd(), 'output.jpg')
+    image.save(output_path)
     return image
 
 
@@ -104,21 +102,11 @@ def resize_image(image_path):
         image.save(image_path)
 
 
-set_display()
-# Input data
-
 data = pd.read_csv(META_FILE)
 data['path'] = data['id'].apply(reconstruct_path)
-data.head()
-plt.hist(data['count'], bins=20)
-stats = data.describe()
-plt.axvline(stats.loc['mean', 'count'], label='Mean value', color='green')
-plt.legend()
-plt.xlabel('Number of people')
-plt.ylabel('Frequency')
-plt.title('Target Values')
+print(data.head())
 
-# Load the model.
+# Load the model
 detector = hub.load(MODEL_PATH)
 
 # Object detection with no confidence threshold results in
@@ -130,7 +118,11 @@ resize_image(example_path)
 
 results = detect_objects(example_path, detector)
 
+# to print out number of people in picture
+print((count_persons(example_path, results)))
+
 draw_bboxes(example_path, results)
+
 # With high threshold the model underestimates the number of people
 # selecting only the most obvious objects at the foreground.
 draw_bboxes(example_path, results, threshold=0.5)
@@ -138,4 +130,3 @@ draw_bboxes(example_path, results, threshold=0.5)
 # With relatively low threshold the model is most accurate counting people
 # that are located at the foreground and the middle of the picture.
 # Objects at the background are mostly ignored.
-draw_bboxes(example_path, results, threshold=0.25)
