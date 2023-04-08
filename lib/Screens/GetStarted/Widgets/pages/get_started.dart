@@ -4,8 +4,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-// void main() => runApp(MyApp());
-
 class GetStartedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
