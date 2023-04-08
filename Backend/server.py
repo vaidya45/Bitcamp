@@ -33,7 +33,7 @@ class ImageProcessing(Resource):
         if not self.allowed_file(image_file.filename):
             return {"message": "Invalid file type"}, 400
         filename = secure_filename(image_file.filename)
-        filepath = os.path.join("Backend/images", filename)
+        filepath = os.path.join("Backend", filename)
         image_file.save(filepath)
         text = pytesseract.image_to_string(Image.open(filepath, "r"))
         os.remove(filepath)
