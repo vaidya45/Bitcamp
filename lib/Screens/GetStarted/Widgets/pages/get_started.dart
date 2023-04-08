@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -35,8 +36,8 @@ class _TodoListPageState extends State<TodoListPage> {
   }
 
   uploadImage() async {
-    final request =
-        http.MultipartRequest("GET", Uri.parse("http://127.0.0.1:5000/upload"));
+    final request = http.MultipartRequest(
+        "GET", Uri.parse("http://10.104.40.136:5000/upload"));
     final headers = {"Content-type": "multipart/form-data"};
 
     request.files.add(http.MultipartFile(
@@ -46,7 +47,7 @@ class _TodoListPageState extends State<TodoListPage> {
     var response = await request.send();
     var responseBody = await response.stream.bytesToString();
     if (response.statusCode == 200) {
-      speak(responseBody['message']);
+      speak(responseBody);
     } else {
       throw Exception('Failed to get text from image');
     }
