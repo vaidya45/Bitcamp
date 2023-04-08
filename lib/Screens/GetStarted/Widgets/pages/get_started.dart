@@ -1,9 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 // void main() => runApp(MyApp());
 
 class GetStartedPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,71 +25,67 @@ class TodoListPage extends StatefulWidget {
 }
 
 class _TodoListPageState extends State<TodoListPage> {
-  final _todoList = <String>[];
-  final _textController = TextEditingController();
+  File image;
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+
+      setState(() => this.image = imageTemp);
+    } catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future pickImageC() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.camera);
+
+      if (image == null) return;
+
+      final imageTemp = File(image.path);
+
+      setState(() => this.image = imageTemp);
+    } catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('To-Do List'),
-        centerTitle: true,
-      ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            TextField(
-              controller: _textController,
-              decoration: InputDecoration(
-                hintText: 'Add a task',
-              ),
-              onSubmitted: (text) {
-                setState(() {
-                  _todoList.add(text);
-                  _textController.clear();
-                });
-              },
-            ),
-            SizedBox(height: 16.0),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _todoList.length,
-                itemBuilder: (context, index) {
-                  final todo = _todoList[index];
-                  return Dismissible(
-                    key: Key(todo),
-                    onDismissed: (direction) {
-                      setState(() {
-                        _todoList.removeAt(index);
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('$todo deleted'),
-                          action: SnackBarAction(
-                            label: 'Undo',
-                            onPressed: () {
-                              setState(() {
-                                _todoList.insert(index, todo);
-                              });
-                            },
-                          ),
-                        ),
-                      );
-                    },
-                    child: Card(
-                      child: ListTile(
-                        title: Text(todo),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+        appBar: AppBar(
+          title: const Text("Image Picker Example"),
         ),
-      ),
-    );
+        body: Center(
+          child: Column(
+            children: [
+              MaterialButton(
+                  color: Colors.blue,
+                  child: const Text("Pick Image from Gallery",
+                      style: TextStyle(
+                          color: Colors.white70, fontWeight: FontWeight.bold)),
+                  onPressed: () {
+                    pickImage();
+                  }),
+              MaterialButton(
+                  color: Colors.blue,
+                  child: const Text("Pick Image from Camera",
+                      style: TextStyle(
+                          color: Colors.white70, fontWeight: FontWeight.bold)),
+                  onPressed: () {
+                    pickImageC();
+                  }),
+              SizedBox(
+                height: 20,
+              ),
+              image != null ? Image.file(image) : Text("No image selected")
+            ],
+          ),
+        ));
   }
 }

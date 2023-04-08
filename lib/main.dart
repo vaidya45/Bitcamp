@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:camera/camera.dart';
 import 'Screens/GetStarted/UI/GetStartedPage.dart';
 
-void main() {
+List<CameraDescription> cameras;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
+
   runApp(MaterialApp(title: 'hackathon', home: MyApp()));
 }
 

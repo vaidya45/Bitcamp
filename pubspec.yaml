@@ -30,6 +30,8 @@ dependencies:
   dots_indicator: ^1.2.0
   smooth_page_indicator: ^0.2.0
   hexcolor: ^1.0.6
+  camera: ^0.10.0+2
+  image_picker: ^0.8.3
 
 dev_dependencies:
   flutter_test:
