@@ -86,8 +86,8 @@ class _TodoListPageState extends State<TodoListPage> {
                   child: const Text("Pick Image from Gallery",
                       style: TextStyle(
                           color: Colors.white70, fontWeight: FontWeight.bold)),
-                  onPressed: () {
-                    pickImage();
+                  onPressed: () async {
+                    await pickImage();
                     uploadImage();
                   }),
               MaterialButton(
@@ -95,8 +95,9 @@ class _TodoListPageState extends State<TodoListPage> {
                   child: const Text("Pick Image from Camera",
                       style: TextStyle(
                           color: Colors.white70, fontWeight: FontWeight.bold)),
-                  onPressed: () {
-                    pickImageC();
+                  onPressed: () async {
+                    await pickImageC();
+                    uploadImage();
                   }),
               SizedBox(
                 height: 20,
