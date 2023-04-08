@@ -12,8 +12,8 @@ import PIL
 from PIL.ImageDraw import Draw
 
 # Image IDs and target values.
-META_FILE = './labels.csv'
 # EfficientDet model
+META_FILE = '/Users/admin/Documents/projects/Bitcamp/twillo/labels.csv'
 MODEL_PATH = 'https://tfhub.dev/tensorflow/efficientdet/d0/1'
 
 
