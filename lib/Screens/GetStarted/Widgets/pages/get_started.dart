@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -28,29 +27,20 @@ class TodoListPage extends StatefulWidget {
 class _TodoListPageState extends State<TodoListPage> {
   File image;
 
-  final FlutterTts fluttertts = FlutterTts();
-  speak(String text) async {
-    await fluttertts.setLanguage("en-US");
-    await fluttertts.setPitch(1);
-    await fluttertts.speak(text);
-  }
-
   uploadImage() async {
-    final request = http.MultipartRequest(
-        "GET", Uri.parse("http://10.104.40.136:5000/upload"));
+    final request = http.MultipartRequest("GET", Uri.parse("http://127.0.0.1:5000/upload"));
     final headers = {"Content-type": "multipart/form-data"};
 
     request.files.add(http.MultipartFile(
         'file', image.readAsBytes().asStream(), image.lengthSync(),
         filename: image.path.split("/").last));
 
-    var response = await request.send();
-    var responseBody = await response.stream.bytesToString();
-    if (response.statusCode == 200) {
-      speak(responseBody);
-    } else {
-      throw Exception('Failed to get text from image');
-    }
+    request.headers.addAll(headers);
+    final response = await request.send();
+
+    http.Response res = await http.Response.fromStream(response);
+
+    final resJson = jsonDecode(res.body);
   }
 
   Future pickImage() async {
@@ -84,36 +74,107 @@ class _TodoListPageState extends State<TodoListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Image Picker Example"),
-        ),
-        body: Center(
-          child: Column(
-            children: [
-              MaterialButton(
-                  color: Colors.blue,
-                  child: const Text("Pick Image from Gallery",
-                      style: TextStyle(
-                          color: Colors.white70, fontWeight: FontWeight.bold)),
-                  onPressed: () async {
-                    await pickImage();
-                    uploadImage();
-                  }),
-              MaterialButton(
-                  color: Colors.blue,
-                  child: const Text("Pick Image from Camera",
-                      style: TextStyle(
-                          color: Colors.white70, fontWeight: FontWeight.bold)),
-                  onPressed: () async {
-                    await pickImageC();
-                    uploadImage();
-                  }),
-              SizedBox(
-                height: 20,
-              ),
-              image != null ? Image.file(image) : Text("No image selected")
-            ],
+      appBar: AppBar(
+        title: const Text("Click, Read, and Go!"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            image != null ?
+            Container(
+  decoration: BoxDecoration(
+    border: Border.all(
+      color: Colors.white,
+      width: 2.0,
+    ),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.2),
+        spreadRadius: 2,
+        blurRadius: 2,
+        offset: Offset(0, 3),
+      ),
+    ],
+  ),
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(8.0),
+    child: Image.file(
+      image,
+      fit: BoxFit.contain,
+    ),
+  ),
+)
+ :
+            Container(),
+            SizedBox(height: 20),
+            ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    primary: Colors.blue,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+    ),
+    elevation: 5,
+    shadowColor: Colors.grey.withOpacity(0.5),
+    padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+    textStyle: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 18.0,
+    ),
+    // Add animation properties
+    animationDuration: Duration(milliseconds: 500),
+    splashFactory: InkRipple.splashFactory,
+    // Set splashColor in InkRipple widget
+  ),
+  // Add widget to make button more interesting
+  child: Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      // Icon(
+      //   Icons.photo_album,
+      //   color: Colors.white,
+      // ),
+      SizedBox(width: 10),
+      Text("Pick Image from Gallery"),
+    ],
+  ),
+  onPressed: () async {
+    await pickImage();
+    uploadImage();
+  },
+)
+,
+
+            SizedBox(height: 10),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                // primary: Colors.blue,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                shadowColor: Colors.grey.withOpacity(0.5),
+                animationDuration: Duration(milliseconds: 300),
+                textStyle: TextStyle(
+                  color: Colors.white70,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,),
+                ),
+
+            onPressed: () async {
+                await pickImageC();
+                uploadImage();
+              },
+            child: Text(
+              "Pick Image from Camera",
+            ),
           ),
-        ));
+          // image != null ? Image.file(image) : Text ("No Image Selected")
+          ],
+        ),
+      ),
+    );
   }
 }
