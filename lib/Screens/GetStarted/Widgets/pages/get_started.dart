@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -27,21 +28,27 @@ class TodoListPage extends StatefulWidget {
 class _TodoListPageState extends State<TodoListPage> {
   File image;
 
+  final FlutterTts fluttertts = FlutterTts();
+  speak(String text) async {
+    await fluttertts.setLanguage("en-US");
+    await fluttertts.setPitch(1);
+    await fluttertts.speak(text);
+  }
+
   uploadImage() async {
     final request = http.MultipartRequest(
         "GET", Uri.parse("http://10.104.40.136:9080/upload"));
     final headers = {"Content-type": "multipart/form-data"};
-
     request.files.add(http.MultipartFile(
         'file', image.readAsBytes().asStream(), image.lengthSync(),
         filename: image.path.split("/").last));
-
-    request.headers.addAll(headers);
-    final response = await request.send();
-
-    http.Response res = await http.Response.fromStream(response);
-
-    final resJson = jsonDecode(res.body);
+    var response = await request.send();
+    var responseBody = await response.stream.bytesToString();
+    if (response.statusCode == 200) {
+      speak(responseBody);
+    } else {
+      throw Exception('Failed to get text from image');
+    }
   }
 
   Future pickImage() async {
