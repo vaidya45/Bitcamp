@@ -227,6 +227,17 @@ class _TodoListPageState extends State<TodoListPage> {
                       pauseSpeaking();
                     },
                   ),
+
+                  // Resume Button
+                  SizedBox(width: 16),
+                  FloatingActionButton(
+                    backgroundColor: Colors.green,
+                    child: Icon(Icons.play_arrow),
+                    onPressed: () {
+                      // code for the second button goes here
+                      resumeSpeaking();
+                    },
+                  ),
                 ],
               ),
             )
