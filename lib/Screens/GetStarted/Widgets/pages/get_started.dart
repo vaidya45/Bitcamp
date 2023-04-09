@@ -27,7 +27,7 @@ class TodoListPage extends StatefulWidget {
 
 class _TodoListPageState extends State<TodoListPage> {
   File image;
-  bool isPaused = false;
+  bool isSpeaking = false;
   var textSpeak = "";
 
   final FlutterTts fluttertts = FlutterTts();
@@ -35,24 +35,28 @@ class _TodoListPageState extends State<TodoListPage> {
   speak() async {
     await fluttertts.setLanguage("en-US");
     await fluttertts.setPitch(1);
-    if (textSpeak.isEmpty){
+    if (textSpeak.isEmpty) {
       await fluttertts.speak("No Text Detected");
-    }
-    else{
+    } else {
       await fluttertts.speak(textSpeak);
     }
+    isSpeaking = true;
   }
 
   stopSpeaking() async {
     await fluttertts.stop();
+    isSpeaking = false;
   }
 
   pauseSpeaking() async {
     await fluttertts.pause();
+    isSpeaking = false;
   }
 
   resumeSpeaking() async {
-    await speak();
+    if (!isSpeaking) {
+      await speak();
+    }
   }
 
   uploadImage() async {
@@ -173,6 +177,7 @@ class _TodoListPageState extends State<TodoListPage> {
                 ],
               ),
               onPressed: () async {
+                stopSpeaking();
                 await pickImage();
                 uploadImage();
               },
@@ -195,6 +200,7 @@ class _TodoListPageState extends State<TodoListPage> {
                 ),
               ),
               onPressed: () async {
+                stopSpeaking();
                 await pickImageC();
                 uploadImage();
               },
