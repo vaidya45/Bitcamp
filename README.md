@@ -1,3 +1,4 @@
+# Header 1
 **Speechify**
 
 Speechify is a mobile application designed to help dyslexic individuals read text from images. Built using the Flutter framework, Speechify offers an intuitive and visually stunning UI, complete with text-to-speech capabilities and machine learning models to improve the accuracy of the text extraction process.
