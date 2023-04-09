@@ -81,7 +81,7 @@ Widget buildImage(BuildContext context, int index, double screenHeight) => Cente
   ),
 );
 
-Widget buildTitle(BuildContext context, int index) => Flexible(
+Widget buildTitle(BuildContext context, int index) => Expanded(
   child: Container(
     margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
     child: Text(
@@ -103,6 +103,7 @@ Widget buildTitle(BuildContext context, int index) => Flexible(
     ),
   ),
 );
+
 
 Widget buildSubTitle(BuildContext context, int index) => Flexible(
   child: Container(

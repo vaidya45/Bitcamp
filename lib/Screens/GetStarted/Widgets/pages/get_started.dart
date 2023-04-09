@@ -119,69 +119,77 @@ class _TodoListPageState extends State<TodoListPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            image != null
-                ? Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 2.0,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          spreadRadius: 2,
-                          blurRadius: 2,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(8.0),
-                      child: Image.file(
-                        image,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  )
-                : Container(),
+            image != null ?
+Container(
+  decoration: BoxDecoration(
+    border: Border.all(
+      color: Colors.white,
+      width: 2.0,
+    ),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.2),
+        spreadRadius: 2,
+        blurRadius: 2,
+        offset: Offset(0, 3),
+      ),
+    ],
+  ),
+  constraints: BoxConstraints(
+    maxHeight: 300, // set a maximum height for the container
+  ),
+  child: ClipRRect(
+    borderRadius: BorderRadius.circular(8.0),
+    child: Image.file(
+      image,
+      fit: BoxFit.cover, // scale the image up to fill the container if it's smaller
+    ),
+  ),
+)
+
+
+
+ :
+            Container(),
             SizedBox(height: 20),
             ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                primary: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                elevation: 5,
-                shadowColor: Colors.grey.withOpacity(0.5),
-                padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
-                textStyle: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                ),
-                // Add animation properties
-                animationDuration: Duration(milliseconds: 500),
-                splashFactory: InkRipple.splashFactory,
-                // Set splashColor in InkRipple widget
-              ),
-              // Add widget to make button more interesting
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Icon(
-                  //   Icons.photo_album,
-                  //   color: Colors.white,
-                  // ),
-                  SizedBox(width: 10),
-                  Text("Pick Image from Gallery"),
-                ],
-              ),
-              onPressed: () async {
-                stopSpeaking();
-                await pickImage();
-                uploadImage();
-              },
-            ),
+  style: ElevatedButton.styleFrom(
+    primary: Colors.blue,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20.0),
+    ),
+    elevation: 5,
+    shadowColor: Colors.grey.withOpacity(0.5),
+    padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+    textStyle: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 18.0,
+    ),
+    // Add animation properties
+    animationDuration: Duration(milliseconds: 500),
+    splashFactory: InkRipple.splashFactory,
+    // Set splashColor in InkRipple widget
+  ),
+  // Add widget to make button more interesting
+  child: Row(
+    mainAxisSize: MainAxisSize.min,
+    children: [
+      // Icon(
+      //   Icons.photo_album,
+      //   color: Colors.white,
+      // ),
+      SizedBox(width: 10),
+      Text("Pick Image from Gallery"),
+    ],
+  ),
+  onPressed: () async {
+    await pickImage();
+    uploadImage();
+  },
+)
+,
+
             SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -196,40 +204,37 @@ class _TodoListPageState extends State<TodoListPage> {
                 textStyle: TextStyle(
                   color: Colors.white70,
                   fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
+                  fontSize: 18.0,),
                 ),
-              ),
-              onPressed: () async {
-                stopSpeaking();
+
+            onPressed: () async {
                 await pickImageC();
                 uploadImage();
               },
-              child: Text(
-                "Pick Image from Camera",
-              ),
+            child: Text(
+              "Pick Image from Camera",
             ),
-            // Add here
+          ),
+          // image != null ? Image.file(image) : Text ("No Image Selected")
+            SizedBox(height: 50),
             Visibility(
               visible: image != null,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // Stop button
-                  FloatingActionButton(
-                    backgroundColor: Colors.red,
-                    child: Text(
-                      'X',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 30,
-                      ),
-                    ),
+                  SizedBox(height: 50),
+                   FloatingActionButton(
+                    backgroundColor: Colors.green,
+                    child: Icon(Icons.play_arrow),
                     onPressed: () {
-                      stopSpeaking();
+                      // code for the second button goes here
+                      resumeSpeaking();
                     },
                   ),
                   // Pause Button
                   SizedBox(width: 16),
+                  SizedBox(height: 40),
                   FloatingActionButton(
                     backgroundColor: Colors.blue,
                     child: Icon(Icons.pause),
@@ -241,12 +246,19 @@ class _TodoListPageState extends State<TodoListPage> {
 
                   // Resume Button
                   SizedBox(width: 16),
-                  FloatingActionButton(
-                    backgroundColor: Colors.green,
-                    child: Icon(Icons.play_arrow),
+                  SizedBox(height: 40),
+                       FloatingActionButton(
+                    backgroundColor: Colors.red,
+                    child: Icon(Icons.stop),
+                    // child: Text(
+                    //   'X',
+                    //   style: TextStyle(
+                    //     fontWeight: FontWeight.bold,
+                    //     fontSize: 30,
+                    //   ),
+                    // ),
                     onPressed: () {
-                      // code for the second button goes here
-                      resumeSpeaking();
+                      stopSpeaking();
                     },
                   ),
                 ],
@@ -259,17 +271,13 @@ class _TodoListPageState extends State<TodoListPage> {
   }
 }
 
-// Visibility(
-//                 visible: image != null,
-//                 child: FloatingActionButton(
-//                     backgroundColor: Colors.red,
-//                     child: Text(
-//                       'X',
-//                       style: TextStyle(
-//                         fontWeight: FontWeight.bold,
-//                         fontSize: 30,
-//                       ),
-//                     ),
-//                     onPressed: () {
-//                       stopSpeaking();
-//                     }))
+            // Add here
+
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
