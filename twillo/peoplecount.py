@@ -9,6 +9,19 @@ import PIL
 from PIL.ImageDraw import Draw
 from PIL import Image, ImageDraw
 import os
+from twilio.rest import Client
+from dotenv import load_dotenv
+
+MAX_PEOPLE_COUNT = 10
+# Load environment variables from .env file
+load_dotenv()
+
+# Access environment variables
+account_sid = os.getenv("TWILIO_ACCOUNT_SID")
+auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+phone = os.getenv("HENRY_PHONE")
+client = Client(account_sid, auth_token)
+
 
 # Image IDs and target values.
 # EfficientDet model
@@ -113,13 +126,22 @@ detector = hub.load(MODEL_PATH)
 # duplicate bounding boxes and false positives.
 # Total number of people in an image is overestimated.
 # Some mannequins are erroneously marked as people.
-example_path = '/Users/admin/Documents/projects/Bitcamp/twillo/people2.jpg'
+example_path = '/Users/admin/Documents/projects/Bitcamp/twillo/peoples_lots.jpeg'
 resize_image(example_path)
 
 results = detect_objects(example_path, detector)
 
+
 # to print out number of people in picture
-print((count_persons(example_path, results)))
+people_count = count_persons(example_path, results, 0.01)
+print('There are %d at your location' % people_count)
+if people_count > 50:
+    message = client.messages.create(
+        body='There are %d at your location' % people_count,
+        from_='+18449711427',
+        to=phone
+    )
+
 
 draw_bboxes(example_path, results)
 
