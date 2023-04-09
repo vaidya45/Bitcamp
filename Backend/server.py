@@ -4,7 +4,7 @@ import pytesseract
 import io
 import werkzeug
 from PIL import Image
-import cv2
+import cv2, re
 import numpy as np
 
 
@@ -77,6 +77,8 @@ class ImageProcessing(Resource):
         text = pytesseract.image_to_string(
             Image.fromarray(preprocessed_img), lang="eng"
         ).replace("\n", "")
+
+        text = re.sub('[^0-9a-zA-Z]+', ' ', text).strip()
 
         return {"message": text}
 
