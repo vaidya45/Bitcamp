@@ -114,7 +114,7 @@ class _TodoListPageState extends State<TodoListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Click, Read, and Go!"),
+        title: const Text("Snap it, Read it, Live it!"),
       ),
       body: Center(
         child: Column(

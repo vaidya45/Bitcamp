@@ -19,7 +19,7 @@ Widget buildBody(BuildContext context) => Container(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   buildPageView(context),
-                  heightSpacer(30.00),
+                  heightSpacer(40.00),
                   buildDotIndicator(),
                   heightSpacer(100.00),
                   buildGetStartedButton(context),
