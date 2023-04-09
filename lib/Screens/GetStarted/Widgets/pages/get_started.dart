@@ -35,6 +35,7 @@ class _TodoListPageState extends State<TodoListPage> {
   speak() async {
     await fluttertts.setLanguage("en-US");
     await fluttertts.setPitch(1);
+    await fluttertts.setSpeechRate(0.5);
     if (textSpeak.isEmpty) {
       await fluttertts.speak("No Text Detected");
     } else {
