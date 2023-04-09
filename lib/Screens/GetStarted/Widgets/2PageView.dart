@@ -39,7 +39,8 @@ Widget buildTopViews(BuildContext context, int index, double screenHeight, doubl
         buildImage(context, index, screenHeight),
         heightSpacer(screenHeight * 0.05),
         buildTitle(context, index),
-        heightSpacer(screenHeight * 0.02),
+        SizedBox(height: 15),
+        // heightSpacer(screenHeight * 0.02),
         buildSubTitle(context, index),
       ],
     ),
@@ -83,7 +84,7 @@ Widget buildImage(BuildContext context, int index, double screenHeight) => Cente
 
 Widget buildTitle(BuildContext context, int index) => Expanded(
   child: Container(
-    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01),
+    margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.0001),
     child: Text(
       heading[index],
       textAlign: TextAlign.center,
