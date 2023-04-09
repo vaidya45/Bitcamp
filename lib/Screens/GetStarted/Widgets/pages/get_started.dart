@@ -62,9 +62,10 @@ class _TodoListPageState extends State<TodoListPage> {
         filename: image.path.split("/").last));
     var response = await request.send();
     var responseBody = await response.stream.bytesToString();
+    var parsedJson = json.decode(responseBody);
     if (response.statusCode == 200) {
       // Set it to whatever you want to "speak"
-      textSpeak = responseBody;
+      textSpeak = parsedJson["message"];
       speak();
     } else {
       throw Exception('Failed to get text from image');

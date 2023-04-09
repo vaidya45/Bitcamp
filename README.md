@@ -11,36 +11,43 @@
 </p>
 
 ## Flutter
+
 [Flutter](https://flutter.dev/) is a crossplatfrom UI tool kit that helps in developing native Android and iOS app from a single code base.
-
-
 
 ## App
 
-
 Check out the video tutorial 👉 : https://youtu.be/7B1Q0oaEP64
 
-To know more awesome content about Flutter., 
+To know more awesome content about Flutter.,
 
 Visit my channel 👉 : https://www.youtube.com/channel/UCBC_Z7jla1GSITcqLKAtPxQ
 
-
 ## Dependencies
 
-```pubspec.yaml
-  dots_indicator: ^1.2.0
-  smooth_page_indicator: ^0.2.0
-  hexcolor: ^1.0.6
 ```
-
-
+  Tesseract
+  Python
+    Flask
+    werkzeug
+    flask_restful
+    io
+    pytesseract
+    PLT
+  Flutter
+   cupertino_icons: ^1.0.2
+   dots_indicator: ^1.2.0
+   smooth_page_indicator: ^0.2.0
+   hexcolor: ^1.0.6
+   camera: ^0.10.0+2
+   image_picker: ^0.8.3
+   flutter_tts: ^3.2.2
+```
 
 ## Sample Results
 
-Results | #1 | #2 | #3
---- | --- | --- | --- |
-Images | <img src="https://user-images.githubusercontent.com/58719230/107113655-553e8880-6886-11eb-9359-819ff223c426.png" width="350" height="550"> | <img src="https://user-images.githubusercontent.com/58719230/107113651-4f48a780-6886-11eb-8e9e-7651fefec410.png" width="350" height="550"> | <img src="https://user-images.githubusercontent.com/58719230/107113653-5079d480-6886-11eb-8ccd-23b9b1fbbde4.png" width="350" height="550"> |
-
+| Results | #1                                                                                                                                         | #2                                                                                                                                         | #3                                                                                                                                         |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Images  | <img src="https://user-images.githubusercontent.com/58719230/107113655-553e8880-6886-11eb-9359-819ff223c426.png" width="350" height="550"> | <img src="https://user-images.githubusercontent.com/58719230/107113651-4f48a780-6886-11eb-8e9e-7651fefec410.png" width="350" height="550"> | <img src="https://user-images.githubusercontent.com/58719230/107113653-5079d480-6886-11eb-8ccd-23b9b1fbbde4.png" width="350" height="550"> |
 
 <p align="center">
 <img src="https://user-images.githubusercontent.com/58719230/123965309-f19e2e80-d9d1-11eb-927d-7c8597a7df76.gif" width="100%">
