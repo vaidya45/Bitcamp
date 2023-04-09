@@ -29,20 +29,36 @@ class ImageProcessing(Resource):
         )
 
     def preprocess_image(self, image):
-        # Convert the image to grayscale
+        # Convert image to grayscale
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        
+        # Apply adaptive thresholding to enhance text
+        thresh = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
+        
+        # Apply median filtering to remove noise
+        median = cv2.medianBlur(thresh, 3)
+        
+        # Apply dilation to enhance text
+        kernel = np.ones((2,2), np.uint8)
+        dilation = cv2.dilate(median, kernel, iterations=1)
+        
+        return dilation
 
-        # Apply adaptive thresholding to the image
-        thresh = cv2.adaptiveThreshold(
-            gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 11, 2
-        )
+    # def preprocess_image(self, image):
+    #     # Convert the image to grayscale
+    #     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-        # Perform morphological operations to remove noise and fill gaps in the image
-        kernel = np.ones((3, 3), np.uint8)
-        opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=1)
-        closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel, iterations=1)
+    #     # Apply adaptive thresholding to the image
+    #     thresh = cv2.adaptiveThreshold(
+    #         gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 11, 2
+    #     )
 
-        return closing
+    #     # Perform morphological operations to remove noise and fill gaps in the image
+    #     kernel = np.ones((3, 3), np.uint8)
+    #     opening = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=1)
+    #     closing = cv2.morphologyEx(opening, cv2.MORPH_CLOSE, kernel, iterations=1)
+
+    #     return closing
 
     def get(self):
         args = parse.parse_args()
