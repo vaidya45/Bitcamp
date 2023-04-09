@@ -27,16 +27,27 @@ class TodoListPage extends StatefulWidget {
 
 class _TodoListPageState extends State<TodoListPage> {
   File image;
+  bool isPaused = false;
+  var textSpeak = "";
 
   final FlutterTts fluttertts = FlutterTts();
-  speak(String text) async {
+
+  speak() async {
     await fluttertts.setLanguage("en-US");
     await fluttertts.setPitch(1);
-    await fluttertts.speak(text);
+    await fluttertts.speak(textSpeak);
   }
 
   stopSpeaking() async {
     await fluttertts.stop();
+  }
+
+  pauseSpeaking() async {
+    await fluttertts.pause();
+  }
+
+  resumeSpeaking() async {
+    await speak();
   }
 
   uploadImage() async {
@@ -44,7 +55,7 @@ class _TodoListPageState extends State<TodoListPage> {
     final y = "10.0.12.35";
 
     final request = http.MultipartRequest(
-        "GET", Uri.parse("http://10.104.40.136:9080/upload"));
+        "GET", Uri.parse("http://10.0.12.35:9080/upload"));
     final headers = {"Content-type": "multipart/form-data"};
     request.files.add(http.MultipartFile(
         'file', image.readAsBytes().asStream(), image.lengthSync(),
@@ -52,7 +63,9 @@ class _TodoListPageState extends State<TodoListPage> {
     var response = await request.send();
     var responseBody = await response.stream.bytesToString();
     if (response.statusCode == 200) {
-      speak(responseBody);
+      // Set it to whatever you want to "speak"
+      textSpeak = responseBody;
+      speak();
     } else {
       throw Exception('Failed to get text from image');
     }
@@ -183,9 +196,14 @@ class _TodoListPageState extends State<TodoListPage> {
                 "Pick Image from Camera",
               ),
             ),
+            // Add here
             Visibility(
-                visible: image != null,
-                child: FloatingActionButton(
+              visible: image != null,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Stop button
+                  FloatingActionButton(
                     backgroundColor: Colors.red,
                     child: Text(
                       'X',
@@ -196,10 +214,39 @@ class _TodoListPageState extends State<TodoListPage> {
                     ),
                     onPressed: () {
                       stopSpeaking();
-                    }))
+                    },
+                  ),
+                  // Pause Button
+                  SizedBox(width: 16),
+                  FloatingActionButton(
+                    backgroundColor: Colors.blue,
+                    child: Icon(Icons.pause),
+                    onPressed: () {
+                      // code for the second button goes here
+                      pauseSpeaking();
+                    },
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),
     );
   }
 }
+
+// Visibility(
+//                 visible: image != null,
+//                 child: FloatingActionButton(
+//                     backgroundColor: Colors.red,
+//                     child: Text(
+//                       'X',
+//                       style: TextStyle(
+//                         fontWeight: FontWeight.bold,
+//                         fontSize: 30,
+//                       ),
+//                     ),
+//                     onPressed: () {
+//                       stopSpeaking();
+//                     }))
